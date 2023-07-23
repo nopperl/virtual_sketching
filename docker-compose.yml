@@ -1,0 +1,20 @@
+version: "3.9"
+name: virtual_sketching
+services:
+  gpu:
+    build:
+      context: .
+    entrypoint: /app/virtual_sketching/entrypoint.sh
+    volumes:
+      - ./sample_inputs:/app/virtual_sketching/sample_inputs
+      - ./outputs:/app/virtual_sketching/outputs
+    tmpfs:
+      - /tmp
+    shm_size: 128G
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
